@@ -39,7 +39,8 @@ const EditProfile = () => {
     formData.append('profilePic', profilePic);
 
     try {
-      const res = await fetch(`/api/userRoutes/upload-profile-pic`, {
+      const apiUrl = process.env.REACT_APP_API_URL || '';
+      const res = await fetch(`${apiUrl}/api/userRoutes/upload-profile-pic`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -66,7 +67,8 @@ const EditProfile = () => {
     setUploading(true);
 
     try {
-      const res = await fetch('/api/userRoutes/upload-profile-pic', {
+      const apiUrl = process.env.REACT_APP_API_URL || '';
+      const res = await fetch(`${apiUrl}/api/userRoutes/upload-profile-pic`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

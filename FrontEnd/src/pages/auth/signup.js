@@ -14,7 +14,8 @@ const SignUp = () => {
     const checkEmailAvailability = async () => {
       setIsChecking(true);
       try {
-        const response = await fetch('/api/userRoutes/check-email', {
+        const apiUrl = process.env.REACT_APP_API_URL || '';
+        const response = await fetch(`${apiUrl}/api/userRoutes/check-email`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

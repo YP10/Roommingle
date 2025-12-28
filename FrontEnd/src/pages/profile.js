@@ -34,7 +34,8 @@ const ProfilePage = () => {
     setToken(userToken);
 
     // Fetch user profile (includes accepted matches array)
-    fetch(`/api/userRoutes/${userId}`, {
+    const apiUrl = process.env.REACT_APP_API_URL || '';
+    fetch(`${apiUrl}/api/userRoutes/${userId}`, {
       headers: { Accept: 'application/json', Authorization: `Bearer ${userToken}` }
     })
       .then(res => {
@@ -48,7 +49,8 @@ const ProfilePage = () => {
         const acceptedIds = profile.matches || [];
 
         const matchPromises = acceptedIds.map(id =>
-          fetch(`/api/userRoutes/${id}`, {
+          const apiUrl = process.env.REACT_APP_API_URL || '';
+          fetch(`${apiUrl}/api/userRoutes/${id}`, {
             headers: { Accept: 'application/json', Authorization: `Bearer ${userToken}` }
           })
             .then(res => {
@@ -63,7 +65,8 @@ const ProfilePage = () => {
         const requestedIds = (user.requestsReceived || []).map(r => r.from);
 
         const requestPromises = requestedIds.map(id =>
-          fetch(`/api/userRoutes/${id}`, {
+          const apiUrl = process.env.REACT_APP_API_URL || '';
+          fetch(`${apiUrl}/api/userRoutes/${id}`, {
             headers: { Accept: 'application/json', Authorization: `Bearer ${token}` }
           })
             .then(res => {
@@ -97,7 +100,8 @@ const ProfilePage = () => {
   const handleRespond = async (userId, action) => {
     setError('');
     try {
-      const res = await fetch(`/api/userRoutes/${userId}/respond`, {
+      const apiUrl = process.env.REACT_APP_API_URL || '';
+      const res = await fetch(`${apiUrl}/api/userRoutes/${userId}/respond`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ action })
@@ -117,7 +121,8 @@ const ProfilePage = () => {
   const handleRemove = async (userId) => {
     setError('')
     try {
-      const res = await fetch(`/api/userRoutes/${userId}/remove`, {
+      const apiUrl = process.env.REACT_APP_API_URL || '';
+      const res = await fetch(`${apiUrl}/api/userRoutes/${userId}/remove`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`},
       });

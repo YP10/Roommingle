@@ -60,7 +60,8 @@ export default function NotificationsPage() {
     // Fetch initial requests
     const fetchRequests = async () => {
         try {
-            const profileRes = await fetch(`/api/userRoutes/${user._id}`, {
+            const apiUrl = process.env.REACT_APP_API_URL || '';
+            const profileRes = await fetch(`${apiUrl}/api/userRoutes/${user._id}`, {
                 headers: { 
                     Authorization: `Bearer ${token}` 
                 }
@@ -73,7 +74,8 @@ export default function NotificationsPage() {
             if (incoming.length > 0) {
                 const users = await Promise.all(
                     incoming.map(req => 
-                        fetch(`/api/userRoutes/${req.from}`, {
+                        const apiUrl = process.env.REACT_APP_API_URL || '';
+                        fetch(`${apiUrl}/api/userRoutes/${req.from}`, {
                             headers: { Authorization: `Bearer ${token}` }
                         }).then(res => res.json())
                     )
@@ -100,8 +102,9 @@ export default function NotificationsPage() {
   const handleRespond = async (userId, action) => {
     try {
         const token = localStorage.getItem('token');
+        const apiUrl = process.env.REACT_APP_API_URL || '';
         const response = await fetch(
-            `/api/userRoutes/${userId}/respond`,
+            `${apiUrl}/api/userRoutes/${userId}/respond`,
             {
                 method: 'POST',
                 headers: { 

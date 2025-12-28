@@ -1,7 +1,8 @@
 export async function sendMatchRequest(targetUserId) {
    const token = localStorage.getItem('token');
+   const apiUrl = process.env.REACT_APP_API_URL || '';
    const res = await fetch(
-       `/api/userRoutes/${targetUserId}/request`,
+       `${apiUrl}/api/userRoutes/${targetUserId}/request`${targetUserId}/request`,
        {
            method: 'POST',
            headers: { Authorization: `Bearer ${token}` }
@@ -17,8 +18,9 @@ export async function sendMatchRequest(targetUserId) {
 
 export async function respondMatchRequest(fromUserId, action) {
    const token = localStorage.getItem('token');
+   const apiUrl = process.env.REACT_APP_API_URL || '';
    const res = await fetch(
-       `/api/userRoutes/${fromUserId}/respond`,
+       `${apiUrl}/api/userRoutes/${targetUserId}/request`${fromUserId}/respond`,
        {
            method: 'POST',
            headers: {

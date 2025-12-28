@@ -26,9 +26,10 @@ const Home = () => {
       'Authorization': `Bearer ${token}`
     };
 
+    const apiUrl = process.env.REACT_APP_API_URL || '';
     Promise.all([
-      fetch(`/api/userRoutes/${userId}`, { headers }),
-      fetch(`/api/userRoutes/recs/${userId}`, { headers })
+      fetch(`${apiUrl}/api/userRoutes/${userId}`, { headers }),
+      fetch(`${apiUrl}/api/userRoutes/recs/${userId}`, { headers })
     ])
       .then(async([profileRes, recsRes]) => {
         if (!profileRes.ok) throw new Error('Failed to load profile');

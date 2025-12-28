@@ -21,7 +21,8 @@ export default function ChatPage() {
     useEffect(() => {
         const token = localStorage.getItem('token');
 
-        fetch(`/api/userRoutes/${userId}`, {
+        const apiUrl = process.env.REACT_APP_API_URL || '';
+        fetch(`${apiUrl}/api/userRoutes/${userId}`, {
             headers: { Accept: 'application/json', Authorization: `Bearer ${token}` }
         })
         .then(res => {
@@ -39,7 +40,8 @@ export default function ChatPage() {
                     ? `/api/userRoutes/chat/${userId}`
                     : '/api/userRoutes/chats';
                 
-                const res = await fetch(`${endpoint}`, {
+                const apiUrl = process.env.REACT_APP_API_URL || '';
+                const res = await fetch(`${apiUrl}${endpoint}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
