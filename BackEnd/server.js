@@ -160,16 +160,16 @@ app.use('/api/auth',authRoutes);
 // Profile picture upload
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Serve frontend build in production
-if (process.env.NODE_ENV === 'production') {
-    const frontendBuildPath = path.join(__dirname, '..', 'FrontEnd', 'build');
-    app.use(express.static(frontendBuildPath));
+// // Serve frontend build in production
+// if (process.env.NODE_ENV === 'production') {
+//     const frontendBuildPath = path.join(__dirname, '..', 'FrontEnd', 'build');
+//     app.use(express.static(frontendBuildPath));
 
-    // All other GET requests not handled will return the React app
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(frontendBuildPath, 'index.html'));
-    });
-}
+//     // All other GET requests not handled will return the React app
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.join(frontendBuildPath, 'index.html'));
+//     });
+// }
 
 // Connect to MongoDB
 connectDB()
