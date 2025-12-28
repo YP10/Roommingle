@@ -18,9 +18,22 @@ const http = require('http');
 const socketIo = require('socket.io');
 const server = http.createServer(app);
 
-// Configure CORS for both Express and Socket.io
+// Configure CORS for both Express and Socket.io using environment variable ALLOWED_ORIGINS
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:3000,http://localhost:3001')
+    .split(',')
+    .map(s => s.trim())
+    .filter(Boolean);
+
 const corsOptions = {
-    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    origin: function(origin, callback) {
+        // allow requests with no origin (like mobile apps or curl)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('CORS policy: origin not allowed'));
+        }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 };
@@ -28,7 +41,11 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const io = socketIo(server, {
-    cors: corsOptions,
+    cors: {
+        origin: allowedOrigins,
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        credentials: true
+    },
     path: '/socket.io'
 });
 
@@ -143,17 +160,24 @@ app.use('/api/auth',authRoutes);
 // Profile picture upload
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Serve frontend build in production
+if (process.env.NODE_ENV === 'production') {
+    const frontendBuildPath = path.join(__dirname, '..', 'FrontEnd', 'build');
+    app.use(express.static(frontendBuildPath));
+
+    // All other GET requests not handled will return the React app
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(frontendBuildPath, 'index.html'));
+    });
+}
+
 // Connect to MongoDB
 connectDB()
     .then(() => {
-        // Listens for requests
-        // app.listen(PORT, () => {
-        // console.log('connected to db & listening on port', PORT);
-        // });
         // Start Socket.io server
         server.listen(PORT, () => {
             console.log(`Server & Socket.io on port ${PORT}`);
-});
+        });
     })
     .catch((error) => {
         console.error('Error connecting to db', error);

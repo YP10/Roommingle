@@ -27,8 +27,8 @@ const Home = () => {
     };
 
     Promise.all([
-      fetch(`http://localhost:1000/api/userRoutes/${userId}`, { headers }),
-      fetch(`http://localhost:1000/api/userRoutes/recs/${userId}`, { headers })
+      fetch(`/api/userRoutes/${userId}`, { headers }),
+      fetch(`/api/userRoutes/recs/${userId}`, { headers })
     ])
       .then(async([profileRes, recsRes]) => {
         if (!profileRes.ok) throw new Error('Failed to load profile');

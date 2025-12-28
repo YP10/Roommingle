@@ -39,7 +39,7 @@ const EditProfile = () => {
     formData.append('profilePic', profilePic);
 
     try {
-      const res = await fetch(`http://localhost:1000/api/userRoutes/upload-profile-pic`, {
+      const res = await fetch(`/api/userRoutes/upload-profile-pic`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -66,7 +66,7 @@ const EditProfile = () => {
     setUploading(true);
 
     try {
-      const res = await fetch('http://localhost:1000/api/userRoutes/upload-profile-pic', {
+      const res = await fetch('/api/userRoutes/upload-profile-pic', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

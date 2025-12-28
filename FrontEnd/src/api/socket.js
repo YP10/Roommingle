@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:1000', {
+const socket = io({
     //path: '/socket.io',
     autoConnect: false, // Connect manually when user logs in
     reconnection: true,

@@ -34,7 +34,7 @@ const ProfilePage = () => {
     setToken(userToken);
 
     // Fetch user profile (includes accepted matches array)
-    fetch(`http://localhost:1000/api/userRoutes/${userId}`, {
+    fetch(`/api/userRoutes/${userId}`, {
       headers: { Accept: 'application/json', Authorization: `Bearer ${userToken}` }
     })
       .then(res => {
@@ -48,7 +48,7 @@ const ProfilePage = () => {
         const acceptedIds = profile.matches || [];
 
         const matchPromises = acceptedIds.map(id =>
-          fetch(`http://localhost:1000/api/userRoutes/${id}`, {
+          fetch(`/api/userRoutes/${id}`, {
             headers: { Accept: 'application/json', Authorization: `Bearer ${userToken}` }
           })
             .then(res => {
@@ -63,7 +63,7 @@ const ProfilePage = () => {
         const requestedIds = (user.requestsReceived || []).map(r => r.from);
 
         const requestPromises = requestedIds.map(id =>
-          fetch(`http://localhost:1000/api/userRoutes/${id}`, {
+          fetch(`/api/userRoutes/${id}`, {
             headers: { Accept: 'application/json', Authorization: `Bearer ${token}` }
           })
             .then(res => {
@@ -97,7 +97,7 @@ const ProfilePage = () => {
   const handleRespond = async (userId, action) => {
     setError('');
     try {
-      const res = await fetch(`http://localhost:1000/api/userRoutes/${userId}/respond`, {
+      const res = await fetch(`/api/userRoutes/${userId}/respond`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ action })
@@ -117,7 +117,7 @@ const ProfilePage = () => {
   const handleRemove = async (userId) => {
     setError('')
     try {
-      const res = await fetch(`http://localhost:1000/api/userRoutes/${userId}/remove`, {
+      const res = await fetch(`/api/userRoutes/${userId}/remove`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`},
       });

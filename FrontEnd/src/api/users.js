@@ -1,7 +1,7 @@
 export async function sendMatchRequest(targetUserId) {
    const token = localStorage.getItem('token');
    const res = await fetch(
-       `http://localhost:1000/api/userRoutes/${targetUserId}/request`,
+       `/api/userRoutes/${targetUserId}/request`,
        {
            method: 'POST',
            headers: { Authorization: `Bearer ${token}` }
@@ -18,7 +18,7 @@ export async function sendMatchRequest(targetUserId) {
 export async function respondMatchRequest(fromUserId, action) {
    const token = localStorage.getItem('token');
    const res = await fetch(
-       `http://localhost:1000/api/userRoutes/${fromUserId}/respond`,
+       `/api/userRoutes/${fromUserId}/respond`,
        {
            method: 'POST',
            headers: {
